@@ -1,10 +1,45 @@
-<!-- templates/home.html -->
 {% extends 'base.html' %}
+
 {% block content %}
-{% for post in object_list %}
-    <div class="post-entry">
-    <h2><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></h2>
-    <p>{{ post.body }}</p>
+
+<div class="top-header">
+        <h2> All Posts </h2>
+    
+    {% if user.is_authenticated %}
+        <div class="nav-right">
+        <p>Hi {{ user.username }}</p>
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+        </div>
     </div>
-{% endfor %}
+      <!-- show posts  when logged in  -->
+       {% if object_list %}
+        {% for post in object_list %}
+            
+            <div class="post-entry">
+                <h2><a href="{% url 'post_detail' post.pk %}"> {{ post.title }} </a> </h2>
+                <p> {{ post.body }}</p>
+            </div>
+           
+        {% endfor %}
+    {% else %}
+    <div>
+        <p>You have no posts </p>
+    </div>
+    {% endif %}
+    <!-- end of posts  -->
+    {% else %}
+    <div>
+        <p>You are not logged in</p>
+        <button><a href="{% url 'login' %}">
+            Login
+        </a></button>
+        <button><a href="{% url 'signup' %}">Signup</a></button>
+    </div>
+    {% endif %}
+
 {% endblock content %}
+
+{% comment %} object list comes from ListView in views.py {% endcomment %}

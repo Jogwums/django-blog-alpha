@@ -4,7 +4,27 @@
         <h2>{{ post.title }}</h2>
         <p>{{ post.body }}</p>
     </div>
-
+    <div class="comment-section">
+        <h3>Comments</h3>
+        {% for comment in comments %}
+        <div class="comment">
+            <div class="comment-meta">
+                <strong>{{ comment.author }}</strong> on {{ comment.created_at }}
+            </div>
+            <p> {{ comment.content }} </p>
+        </div>
+        {% empty %}
+            <p> No comments yet.</p>
+        {% endfor %}
+    </div>
+    <div class="comment-form">
+        <h3>Add a comment </h3>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Submit Comment</button>
+        </form>
+    </div>
     <p><a href="{% url 'post_edit' post.pk %}">+ Edit Blog Post</a></p>
     <p><a href="{% url 'post_delete' post.pk %}">+ Delete Blog Post</a></p>
 {% endblock content %}
