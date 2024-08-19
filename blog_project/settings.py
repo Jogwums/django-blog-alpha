@@ -53,6 +53,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'blog_project.urls'
 
+CSRF_TRUSTED_ORIGINS = ['https://django-blog-alpha-production.up.railway.app']
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
